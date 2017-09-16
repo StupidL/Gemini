@@ -11,15 +11,15 @@ type LoginController struct {
 }
 
 func (c *LoginController) Get() {
-	c.TplName = "login.tpl"
+	c.TplName = "login.html"
 }
 
 func (c *LoginController) Post() {
-	c.Ctx.Request.ParseForm()
 	username := c.Ctx.Request.FormValue("username")
 	password := c.Ctx.Request.FormValue("password")
 	logs.Info("Username: ", username)
 	logs.Info("Password: ", password)
 	c.SetSession(sessionName, username+" "+password)
+	logs.Info("Session: ", c.GetSession(sessionName))
 	c.Redirect("/admin", http.StatusFound)
 }
