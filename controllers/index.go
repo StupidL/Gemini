@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	"time"
 )
 
 type IndexController struct {
@@ -10,17 +9,23 @@ type IndexController struct {
 }
 
 type Blog struct {
-	Link  string
+	Path  string
 	Title string
-	Time  time.Time
+	Time  string
 }
 
 func (c *IndexController) Get() {
 	c.TplName = "index.html"
 
 	blogs := []Blog{
-		{"/blog/a", "Hello a", time.Now()},
-		{"/blog/b", "Hello b", time.Now()},
+		{"/blog/a", "Hello World", "2017-09-21"},
+		{"/blog/b", "Hello World", "2017-07-26"},
+		{"/blog/a", "Hello World", "2017-09-21"},
+		{"/blog/b", "Hello World", "2017-07-26"},
+		{"/blog/a", "Hello World", "2017-09-21"},
+		{"/blog/b", "Hello World", "2017-07-26"},
+		{"/blog/a", "Hello World", "2017-09-21"},
+		{"/blog/b", "Hello World", "2017-07-26"},
 	}
 
 	c.Data["Blogs"] = blogs

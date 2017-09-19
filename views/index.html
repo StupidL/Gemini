@@ -2,7 +2,7 @@
 
 <html>
 <head>
-    <title>Gemini</title>
+    <title>Hello World</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <style type="text/css">
@@ -12,6 +12,8 @@
             font-style: normal;
             text-align: center;
             line-height: 100%;
+            min-width: 600px;
+            max-width: 800px;
         }
 
         body {
@@ -68,12 +70,51 @@
             color: #999;
         }
 
+        header, article {
+            margin-bottom: 2em;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        header {
+            display: block;
+        }
+
+        tbody {
+            display: table-row-group;
+            vertical-align: middle;
+            border-color: inherit;
+        }
+
+        table {
+            display: table;
+            border-collapse: separate;
+            border-spacing: 2px;
+            border-color: grey;
+        }
+
+        tr {
+            display: table-row;
+            vertical-align: inherit;
+            border-color: inherit;
+        }
+
+        td, th {
+            display: table-cell;
+            vertical-align: inherit;
+        }
+
+        footer {
+            display: block;
+            clear: both;
+        }
+
     </style>
 </head>
 
 <body>
 <header>
-    <h1 class="title">人生苦短，及时行乐</h1>
+    <h1 class="title">稻花香里说丰年，听取人生经验</h1>
     <nav>
         <ul>
             <li><a href="/">首页</a></li>
@@ -84,11 +125,12 @@
 </header>
 
 <article>
-    <table>
+    <table class="t">
         <tbody>
         {{range .Blogs}}
-        <td><a href='{{.Link}}'>{{.Title}}</a></td>
-        <td><time>{{.Time}}</time></td>
+        <tr>
+            <td><a href="{{.Path}}">{{.Title}}</a></td>
+        </tr>
         {{end}}
         </tbody>
     </table>
