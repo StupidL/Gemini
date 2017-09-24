@@ -2,18 +2,20 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
-	_ "github.com/mattn/go-sqlite3"
-	"database/sql"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var dbName = "gemini"
 var driverName = "mysql"
-var dataSource = "stupidl:stupidl@/gemini?charset=utf8"
+//user:password@host&port/dbname?charset
+var dataSource = "gemini:usergemini@tcp(localhost:3306)/gemini?charset=utf8"
 var maxIdle = 30
 var maxConn = 30
 
 func init() {
 	orm.RegisterDriver("mysql", orm.DRMySQL)
+	orm.RegisterDataBase("default", "mysql",
+		"gemini:usergemini@tcp(localhost:3306)/gemini?charset=utf8")
 	orm.RegisterDataBase(
 		dbName,
 		driverName,
@@ -21,13 +23,14 @@ func init() {
 		maxIdle,
 		maxConn)
 	orm.RegisterModel(new(Article))
+	orm.RunSyncdb("default",true,true)
 }
 
 type Article struct {
-	Id      int64  `form:"-"`
-	Title   string `form:"title"`
-	Url     string `form:"url"`
-	Content string `form:"content"`
+	Id      int64  `orm:"pk"`
+	Title   string `orm:"title"`
+	Url     string
+	Content string
 }
 
 type ArticleManager interface {
@@ -41,13 +44,23 @@ type ArticleManager interface {
 }
 
 type ArticleMySQLManager struct {
-	db *sql.DB
+}
+
+func NewArticleMySQLManager() *ArticleMySQLManager {
+	m := new(ArticleMySQLManager)
+	return m
 }
 
 func (m *ArticleMySQLManager) Insert(a *Article) error {
-
+	o := orm.NewOrm()
+	o.Using(dbName)
+	_, err := o.Insert(a)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (m *ArticleMySQLManager) DeleteById(id int64) error {
-
+	return nil
 }
